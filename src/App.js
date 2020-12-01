@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { Window, Header, Input, Button, Modal, Footer, useResize } from '@iq/iq-ui-kit'
 import { Stage, Layer, Line, Rect, Group } from 'react-konva'
 import { times, repeat } from 'ramda'
@@ -14,6 +14,11 @@ const R = ({ x, y, s, color }) => <Rect
 />
 
 function App() {
+  const stageRef = useRef()
+  const cache = useRef({
+    x: 0,
+    y: 0
+  })
   const colors = useMemo(() => ({
     divider: getComputedStyle(document.documentElement).getPropertyValue('--iq-divider'),
     accent: getComputedStyle(document.documentElement).getPropertyValue('--iq-accent'),
@@ -31,6 +36,7 @@ function App() {
   })
   const [letter, setLetter] = useState(times(() => repeat(0, options.width), options.height))
   const [mPos, setMPos] = useState({ x: 0, y: 0 })
+  const [touched, setTouched] = useState(false)
 
   useEffect(() => {
     const s = Math.ceil((Math.min(width, height) * 0.8) / Math.max(options.width, options.height))
@@ -45,21 +51,33 @@ function App() {
     setLetter(times(() => repeat(0, options.width), options.height))
   }, [options])
 
-  const handleClick = useCallback((e) => {
+  const onDown = useCallback(() => {
+    setTouched(true)
+
+    const { x, y } = stageRef.current.getPointerPosition()
+    const sx = Math.max(0, Math.floor(x / size.s))
+    const sy = Math.max(0, Math.floor(y / size.s))
+
+    cache.current.val = letter[sy][sx] ? 0 : 1
+  }, [])
+  const onUp = useCallback(() => setTouched(false), [])
+
+  const onMove = useCallback(() => {
+    const { x, y } = stageRef.current.getPointerPosition()
+    const sx = Math.max(0, Math.floor(x / size.s))
+    const sy = Math.max(0, Math.floor(y / size.s))
+
+    if (cache.current.x === sx && cache.current.y === sy) return
+    cache.current.x = sx
+    cache.current.y = sy
+    setMPos({ x: sx, y: sy })
+
+    if (!touched) return
+
     const newL = letter.map((v) => [...v])
-    const mouseX = Math.floor(e.evt.layerX / size.s)
-    const mouseY = Math.floor(e.evt.layerY / size.s)
-
-    newL[mouseY][mouseX] = newL[mouseY][mouseX] ? 0 : 1
+    newL[sy][sx] = cache.current.val
     setLetter(newL)
-  }, [size, letter])
-
-  const handleMouseMove = useCallback((e) => {
-    const mouseX = Math.floor(e.evt.layerX / size.s)
-    const mouseY = Math.floor(e.evt.layerY / size.s)
-
-    setMPos({ x: mouseX, y: mouseY })
-  }, [size])
+  }, [touched, letter])
 
   return (
     <Window
@@ -85,10 +103,15 @@ function App() {
           height: size.h,
         } }>
           <Stage
+            ref={stageRef}
             width={ size.w }
             height={ size.h }
-            onContentClick={ handleClick }
-            onContentMouseMove={ handleMouseMove }
+            onContentTouchStart={ onDown }
+            onContentTouchMove={ onMove }
+            onContentTouchEnd={ onUp }
+            onContentMouseDown={ onDown }
+            onContentMouseMove={ onMove }
+            onContentMouseUp={ onUp }
           >
             <Layer>
               { times((i) => {
