@@ -17,7 +17,6 @@ const R = ({ x, y, s, color }) => <Rect
 
 function App() {
   const { pwaInstall, supported, isInstalled } = useReactPWAInstall()
-  console.log(supported(), isInstalled())
 
   const stageRef = useRef(undefined)
   const cache = useRef({
