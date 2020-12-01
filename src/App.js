@@ -3,7 +3,6 @@ import { Window, Header, Input, Button, Modal, Footer, useResize } from '@iq/iq-
 import { Stage, Layer, Line, Rect, Group } from 'react-konva'
 import { times, repeat } from 'ramda'
 import ls from 'local-storage'
-import logo from './logo192.png'
 import pkg from '../package.json'
 
 const R = ({ x, y, s, color }) => <Rect
