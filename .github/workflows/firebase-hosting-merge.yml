@@ -20,3 +20,4 @@ jobs:
           projectId: fonteditor-4c379
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
