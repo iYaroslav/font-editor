@@ -1,6 +1,8 @@
 #!/bin/bash -e
 
 if [[ -z "$(git status --untracked-files=no --porcelain)" ]]; then
+  yarn build
+
   yarn version --patch
   git push
   git push --tags
