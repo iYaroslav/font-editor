@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { Window, Header, Input, Button, Modal, Footer, useResize } from '@iq/iq-ui-kit'
 import { Stage, Layer, Line, Rect, Group } from 'react-konva'
-import { useReactPWAInstall } from 'react-pwa-install'
 import { times, repeat } from 'ramda'
 import ls from 'local-storage'
 import logo from './logo192.png'
@@ -16,8 +15,6 @@ const R = ({ x, y, s, color }) => <Rect
 />
 
 function App() {
-  const { pwaInstall, supported, isInstalled } = useReactPWAInstall()
-
   const stageRef = useRef(undefined)
   const cache = useRef({
     x: 0,
@@ -44,21 +41,6 @@ function App() {
   const [mPos, setMPos] = useState({ x: 0, y: 0 })
   const [touched, setTouched] = useState(false)
   const [letterIndex, setLetterIndex] = useState(0)
-
-  useEffect(() => {
-    if (supported() && !isInstalled()) {
-      pwaInstall({
-        title: "Install Font Editor",
-        logo: logo,
-        features: (
-          <ul>
-            <li>Works offline</li>
-          </ul>
-        ),
-      })
-        .catch(console.error)
-    }
-  }, [supported, isInstalled, pwaInstall])
 
   useEffect(() => {
     const s = Math.ceil((Math.min(width, height - 68 * 2) * 0.8) / Math.max(options.width, options.height))
