@@ -1,13 +1,51 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  font-size: 62.5%;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+header.iq-layout-header {
+  padding: 0.8rem;
+}
+
+header.iq-layout-header .header-button {
+  margin-right: 0.8rem;
+}
+
+header.iq-layout-header .header-button .header-settings-button {
+  margin-left: 0.8rem;
+}
+
+header.iq-layout-header .iq-header-extra {
+  flex: none;
+  flex-direction: row;
+}
+
+header.iq-layout-header .iq-header-title p {
+  color: var(--iq-color);
+  font-weight: 400;
+}
+
+footer.iq-layout-footer {
+  padding: 0.8rem;
+  text-align: center;
+  font-weight: 500;
+  font-size: 80%;
+  text-transform: uppercase;
+}
+
+.konva-wrapper {
+  width: 100%;
+  text-align: center;
+}
+
+.konva-wrapper:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+
+}
+
+.konva-wrapper .konva-container {
+  display: inline-block;
+  vertical-align: middle;
 }
