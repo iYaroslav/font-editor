@@ -3,6 +3,7 @@ import { Window, Header, Input, Button, Modal, Footer, useResize } from '@iq/iq-
 import { Stage, Layer, Line, Rect, Group } from 'react-konva'
 import { times, repeat } from 'ramda'
 import ls from 'local-storage'
+import pkg from '../package.json'
 
 const R = ({ x, y, s, color }) => <Rect
   x={ x * s + 3 }
@@ -63,7 +64,10 @@ function App() {
   return (
     <Window
       header={ <Header
-        title='Font editor'
+        title={<span>Font editor <small style={{
+          opacity: 0.7,
+          fontSize: '60%'
+        }}>v{pkg.version}</small></span>}
         backIcon={ <Button className={ 'header-button' } flat icon={ 'edit' }/> }
         onBack={ () => setModalOpened(true) }
       /> }
