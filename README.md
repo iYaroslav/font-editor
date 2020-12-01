@@ -1,3 +1,9 @@
+## TODO 
+
+Add `NPM_AUTH_TOKEN` to your `~/.profile` or `~/.bash_profile` or `~/.zshrc` file
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
