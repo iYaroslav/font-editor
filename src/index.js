@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import ReactPWAInstallProvider from 'react-pwa-install'
+import { register } from './serviceWorker'
 import App from './App'
 
 import '@iq/iq-ui-kit/lib/iq-ui-kit.css'
@@ -44,3 +45,4 @@ ReactDOM.render(
 //     })
 //   },
 // })
+register()

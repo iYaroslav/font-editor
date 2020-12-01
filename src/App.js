@@ -62,7 +62,7 @@ function App() {
   }, [supported, isInstalled, pwaInstall])
 
   useEffect(() => {
-    const s = Math.ceil((Math.min(width, height) * 0.8) / Math.max(options.width, options.height))
+    const s = Math.ceil((Math.min(width, height - 68 * 2) * 0.8) / Math.max(options.width, options.height))
     const w = s * options.width
     const h = s * options.height
     setSize({
