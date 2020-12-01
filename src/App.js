@@ -14,7 +14,7 @@ const R = ({ x, y, s, color }) => <Rect
 />
 
 function App() {
-  const stageRef = useRef()
+  const stageRef = useRef(undefined)
   const cache = useRef({
     x: 0,
     y: 0
@@ -59,7 +59,8 @@ function App() {
     const sy = Math.max(0, Math.floor(y / size.s))
 
     cache.current.val = letter[sy][sx] ? 0 : 1
-  }, [])
+  }, [letter, size])
+
   const onUp = useCallback(() => setTouched(false), [])
 
   const onMove = useCallback(() => {
@@ -77,7 +78,7 @@ function App() {
     const newL = letter.map((v) => [...v])
     newL[sy][sx] = cache.current.val
     setLetter(newL)
-  }, [touched, letter])
+  }, [touched, letter, size])
 
   return (
     <Window
@@ -138,6 +139,7 @@ function App() {
 
               { letter.map((line, y) => <Group y={ y * size.s } key={ y }>
                 { line.map((v, x) => v ? <R
+                  key={`${x}-${y}`}
                   x={ x } y={ 0 } s={ size.s } color={ colors.accent }
                 /> : false) }
               </Group>) }
