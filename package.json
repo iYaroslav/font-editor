@@ -1,6 +1,6 @@
 {
   "name": "font-editor",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "private": true,
   "dependencies": {
     "@iq/iq-ui-kit": "^2.6.62",
