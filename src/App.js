@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { Window, Header, Input, Button, Modal, Footer, useResize } from '@iq/iq-ui-kit'
 import { Stage, Layer, Line, Rect, Group } from 'react-konva'
-import { times, repeat } from 'ramda'
+import { times, repeat, update, path } from 'ramda'
 import ls from 'local-storage'
 import pkg from '../package.json'
 
@@ -18,6 +18,7 @@ function App() {
   const cache = useRef({
     x: 0,
     y: 0,
+    lastLetter: undefined,
   })
   const colors = useMemo(() => ({
     divider: getComputedStyle(document.documentElement).getPropertyValue('--iq-divider'),
@@ -29,17 +30,17 @@ function App() {
     width: 8,
     height: 8,
     fontName: 'default',
-    letters: '',
+    letters: '0123456789',
   })
   const [size, setSize] = useState({
     w: 1,
     h: 1,
     s: 1,
   })
-  const [letter, setLetter] = useState(times(() => repeat(0, options.width), options.height))
   const [mPos, setMPos] = useState({ x: 0, y: 0 })
   const [touched, setTouched] = useState(false)
   const [letterIndex, setLetterIndex] = useState(0)
+  const [font, setFont] = useState([])
 
   useEffect(() => {
     const s = Math.ceil((Math.min(width, height - 68 * 2) * 0.8) / Math.max(options.width, options.height))
@@ -51,8 +52,37 @@ function App() {
   }, [width, height, options])
 
   useEffect(() => {
-    setLetter(times(() => repeat(0, options.width), options.height))
+    setFont(times(() => times(() => repeat(0, options.width), options.height), options.letters.length))
+    setLetterIndex(0)
+
+    const onKey = (e) => {
+      switch (e.key) {
+        case 'ArrowRight':
+          setLetterIndex((v) => Math.min(v + 1, options.letters.length - 1))
+          break
+        case 'ArrowLeft':
+          setLetterIndex((v) => Math.max(v - 1, 0))
+          break
+        default:
+          if (e.key.length === 1) {
+            const index = options.letters.indexOf(e.key)
+            if (index !== -1) setLetterIndex(index)
+          }
+          break
+      }
+    }
+
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+    }
   }, [options])
+
+  const updateSymbol = useCallback((x, y) => {
+    const line = update(x, cache.current.val, font[letterIndex][y])
+    const symbol = update(y, line, font[letterIndex])
+    setFont(update(letterIndex, symbol, font))
+  }, [letterIndex, font])
 
   const onDown = useCallback((e) => {
     e.evt.preventDefault()
@@ -63,11 +93,9 @@ function App() {
     const sx = Math.max(0, Math.floor(x / size.s))
     const sy = Math.max(0, Math.floor(y / size.s))
 
-    cache.current.val = letter[sy][sx] ? 0 : 1
-    const newL = letter.map((v) => [...v])
-    newL[sy][sx] = cache.current.val
-    setLetter(newL)
-  }, [letter, size])
+    cache.current.val = font[letterIndex][sy][sx] ? 0 : 1
+    updateSymbol(sx, sy)
+  }, [font, size, updateSymbol, letterIndex])
 
   const onUp = useCallback((e) => {
     e.evt.preventDefault()
@@ -91,34 +119,8 @@ function App() {
 
     if (!touched) return
 
-    const newL = letter.map((v) => [...v])
-    newL[sy][sx] = cache.current.val
-    setLetter(newL)
-  }, [touched, letter, size])
-
-  useEffect(() => {
-    const onKey = (e) => {
-      switch (e.key) {
-        case 'ArrowRight':
-          setLetterIndex((v) => Math.min(v + 1, options.letters.length - 1))
-          break
-        case 'ArrowLeft':
-          setLetterIndex((v) => Math.max(v - 1, 0))
-          break
-        default:
-          if (e.key.length === 1) {
-            const index = options.letters.indexOf(e.key)
-            if (index !== -1) setLetterIndex(index)
-          }
-          break
-      }
-    }
-
-    document.addEventListener('keydown', onKey)
-    return () => {
-      document.removeEventListener('keydown', onKey)
-    }
-  }, [options])
+    updateSymbol(sx, sy)
+  }, [touched, size, updateSymbol])
 
   return (
     <Window
@@ -199,12 +201,14 @@ function App() {
                 />
               }, options.height + 1) }
 
-              { letter.map((line, y) => <Group y={ y * size.s } key={ y }>
-                { line.map((v, x) => v ? <R
-                  key={ `${ x }-${ y }` }
-                  x={ x } y={ 0 } s={ size.s } color={ colors.accent }
-                /> : false) }
-              </Group>) }
+              { path([letterIndex, 0, 0], font) !== undefined && font[letterIndex]
+                .map((line, y) => <Group y={ y * size.s } key={ y }>
+                  { line.map((v, x) => v ? <R
+                    key={ `${ x }-${ y }` }
+                    x={ x } y={ 0 } s={ size.s } color={ colors.accent }
+                  /> : false) }
+                </Group>)
+              }
 
             </Layer>
           </Stage>
