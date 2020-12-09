@@ -1,3 +1,5 @@
+# WORK IN PROGRESS!
+
 ## TODO 
 
 Add `NPM_AUTH_TOKEN` to your `~/.profile` or `~/.bash_profile` or `~/.zshrc` file
