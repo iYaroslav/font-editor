@@ -5,13 +5,20 @@ import { times, repeat, update, path } from 'ramda'
 import ls from 'local-storage'
 import pkg from '../package.json'
 
-const R = ({ x, y, s, color }) => <Rect
-  x={ x * s + 3 }
-  y={ y * s + 3 }
-  width={ s - 6 }
-  height={ s - 6 }
-  fill={ color }
-/>
+const R = ({ x, y, s, color }) => {
+  const d = Math.round(s * 0.9)
+
+  return <Rect
+    x={ x * s + d }
+    y={ y * s + d }
+    width={ s - d * 2 }
+    height={ s - d * 2 }
+    fill={ color }
+  />
+}
+
+
+const OPTIONS_KEY = 'options_v2'
 
 function App() {
   const stageRef = useRef(undefined)
@@ -26,11 +33,12 @@ function App() {
   }), [])
   const [isModalOpened, setModalOpened] = useState(false)
   const { ref, width, height } = useResize()
-  const [options, setOptions] = useState(ls('options') || {
+  const [options, setOptions] = useState(ls(OPTIONS_KEY) || {
     width: 8,
     height: 8,
     fontName: 'default',
     letters: '0123456789',
+    scale: 1,
   })
   const [size, setSize] = useState({
     w: 1,
@@ -43,9 +51,11 @@ function App() {
   const [font, setFont] = useState([])
 
   useEffect(() => {
-    const s = Math.ceil((Math.min(width, height - 68 * 2) * 0.8) / Math.max(options.width, options.height))
+    const s = Math.ceil((Math.min(width, height - 68 * 2) * 0.8) / Math.max(options.width, options.height) * options.scale)
     const w = s * options.width
     const h = s * options.height
+
+    console.log(s, w, h)
     setSize({
       s, w, h,
     })
@@ -254,10 +264,18 @@ function App() {
             value={ options.height }
             placeholder='Letter height'
           />
+
+          <Input
+            required
+            type='float'
+            name='scale'
+            value={ options.scale }
+            placeholder='Scale'
+          />
         </> }
         isOpened={ isModalOpened }
         onApply={ (data) => {
-          ls('options', data)
+          ls(OPTIONS_KEY, data)
           setLetterIndex(0)
           setOptions(data)
         } }
