@@ -87,3 +87,81 @@ footer.iq-layout-footer {
 .konva-container .footer button:first-child {
   margin-right: 3.2rem;
 }
+
+
+
+
+.segments-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  padding: 1.6rem;
+}
+
+.segment {
+  margin: 1.6rem;
+  box-shadow: var(--iq-elevation-3-shadows);
+  background: var(--iq-scrollbar);
+  overflow: hidden;
+  border-radius: 0.4rem;
+}
+
+.segment .header {
+  display: flex;
+  flex-direction: row;
+  padding: 0.8rem;
+}
+
+.segment .header .title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  width: 4rem;
+  line-height: 3rem;
+  flex: 1;
+}
+
+.segment .header .preview {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.segment .header .title small {
+  line-height: 1;
+  font-size: 70%;
+  opacity: 0.5;
+}
+
+.segment .header .iq-input {
+  width: 4rem;
+  margin: 0;
+  background: transparent;
+}
+.segment .header .iq-input input {
+  text-align: center;
+  color: var(--iq-divider);
+  padding: 0.4rem 0.4rem 0.2rem 0.4rem;
+  line-height: 2.2rem;
+}
+.segment .header .iq-input .iq-button {
+  display: none;
+}
+.segment .header .iq-input .bar {
+  /*display: none;*/
+}
+
+.segment .konva-wrap {
+  box-sizing: content-box;
+  background: transparent !important;
+  display: flex;
+  justify-content: center;
+  min-width: 16rem;
+}
+
+.segment .konva {
+  box-sizing: border-box;
+}
