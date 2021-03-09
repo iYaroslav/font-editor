@@ -47,8 +47,8 @@ export default function Editor({
     const { x, y } = stageRef.current.getPointerPosition()
 
     return {
-      x: Math.max(0, Math.floor((x / width) * letter.width)),
-      y: Math.max(0, Math.floor((y / height) * letter.height)),
+      x: Math.min(Math.max(Math.floor((x / width) * letter.width), 0), letter.width),
+      y: Math.min(Math.max(Math.floor((y / height) * letter.height), 0), letter.height),
     }
   }, [letter, width, height])
 
