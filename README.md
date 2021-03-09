@@ -11,7 +11,7 @@
 
 #### TODO List
 - [X] ~~C projects font generation~~
-- [X] ~~Dynamic letter width support~~
+- [X] ~~Variable width font support~~
 - [ ] [Espruono](https://espruino.com) font generation
 - [ ] Font generation config (bits direction, etc)
 - [ ] Migrate to NextJS
