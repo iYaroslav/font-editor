@@ -14,6 +14,10 @@
 - [X] ~~Variable width font support~~
 - [ ] [Espruono](https://espruino.com) font generation
 - [ ] Font generation config (bits direction, etc)
+- [ ] Store data to account (now storing in local storage)
 - [ ] Migrate to NextJS
 - [ ] Firebase storage
 - [ ] Collaborative editing
+- [ ] Import img font support
+- [ ] Font history view
+- [ ] Projects management (open/private, sharing, etc)
