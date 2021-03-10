@@ -2,6 +2,17 @@ import { Stage, Layer, Rect, Circle } from 'react-konva'
 import React, { useRef, useCallback, useReducer, useEffect } from 'react'
 
 function Shape({ x, y, s, color, shape }) {
+  if (s < 3) {
+    return <Rect
+      listening={ false }
+      fill={ color }
+      x={ x }
+      y={ y }
+      width={ s }
+      height={ s }
+    />
+  }
+
   if (shape === 'circle') {
     return <Circle
       listening={ false }
@@ -40,6 +51,7 @@ export default function Editor({
 
     drawMode = false
     document.removeEventListener("mouseup", onUp)
+    document.removeEventListener("touchcancel", onUp);
   }, [])
 
   const getLetterCoords = useCallback(() => {
@@ -47,8 +59,8 @@ export default function Editor({
     const { x, y } = stageRef.current.getPointerPosition()
 
     return {
-      x: Math.min(Math.max(Math.floor((x / width) * letter.width), 0), letter.width),
-      y: Math.min(Math.max(Math.floor((y / height) * letter.height), 0), letter.height),
+      x: Math.min(Math.max(Math.floor((x / width) * letter.width), 0), letter.width - 1),
+      y: Math.min(Math.max(Math.floor((y / height) * letter.height), 0), letter.height - 1),
     }
   }, [letter, width, height])
 
@@ -57,6 +69,7 @@ export default function Editor({
     letter.setBit(x, y, bit = !letter.getBit(x, y))
     drawMode = true;
     document.addEventListener("mouseup", onUp);
+    document.addEventListener("touchcancel", onUp);
   }, [letter, getLetterCoords, onUp])
 
   const onMove = useCallback((e) => {
