@@ -13,6 +13,8 @@
 - [X] ~~C projects font generation~~
 - [X] ~~Variable width font support~~
 - [ ] [Espruono](https://espruino.com) font generation
+- [ ] Character sets list in config (ISO8859-1, ISO10646-1/Unicode, etc)
+- [ ] Cyrillic fonts support
 - [ ] Font generation config (bits direction, etc)
 - [ ] Store data to account (now storing in local storage)
 - [ ] Migrate to NextJS
@@ -21,3 +23,4 @@
 - [ ] Import img font support
 - [ ] Font history view
 - [ ] Projects management (open/private, sharing, etc)
+- [ ] Tips and tricks

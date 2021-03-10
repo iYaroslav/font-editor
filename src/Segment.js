@@ -20,10 +20,13 @@ export default function Segment({
     return () => letter.off('resize', forceUpdate)
   }, [letter])
 
-  return <div
-    className={ 'segment' }
-  >
-    <div className={ 'header' }>
+  return <div className={ 'segment' }>
+    <div
+      className={ 'header' }
+      style={{
+        maxWidth: width
+      }}
+    >
       <span className={ 'title' }>
         { letter.title ? letter.title : <span>&nbsp;</span> }
         <small>&nbsp;{ '0x' + letter.title.charCodeAt(0).toString(16).toLocaleUpperCase() }</small>

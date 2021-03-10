@@ -36,79 +36,17 @@ footer.iq-layout-footer {
   text-transform: uppercase;
 }
 
-.konva-wrapper {
-  width: 100%;
-  text-align: center;
-}
-
-.konva-wrapper:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-}
-
-.konva-wrapper .konva-container {
-  display: inline-block;
-  vertical-align: middle;
-  touch-action: manipulation;
-}
-
-.konva-container .letter {
-  padding: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.konva-container .letter .symbol {
-  font-size: 3.6rem;
-  line-height: 1;
-  font-weight: 300;
-  margin: 0 3.2rem;
-}
-
-.konva-container .letter button:first-child {
-  transform: rotate(180deg);
-}
-
-.konva-container .footer {
-  padding: 1.6rem;
-}
-
-.konva-container .footer button {
-  text-transform: uppercase;
-  font-weight: 300;
-  font-size: 120%;
-  height: 3.6rem;
-  margin: 0;
-}
-
-.konva-container .footer button:first-child {
-  margin-right: 3.2rem;
-}
-
-
-
-
 .segments-wrapper {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: center;
-  justify-content: center;
-  padding: 1.6rem;
+  width: 100%;
 }
 
 .segment {
-  margin: 1.6rem;
-  box-shadow: var(--iq-elevation-3-shadows);
-  background: var(--iq-scrollbar);
+  margin: 0 0 1.6rem;
   overflow: hidden;
-  border-radius: 0.4rem;
 }
 
 .segment .header {
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
   padding: 0.8rem;
@@ -163,4 +101,37 @@ footer.iq-layout-footer {
 
 .segment .konva {
   box-sizing: border-box;
+}
+
+.iq-light, .iq-dark, :root {
+  --iq-scrollbar-width: 1.6rem;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+}
+
+@media (min-width: 32rem) {
+  .iq-light, .iq-dark, :root {
+    --iq-scrollbar-width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 0;
+  }
+
+  .segments-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    padding: 1.6rem;
+  }
+
+  .segment {
+    margin: 1.6rem;
+    box-shadow: var(--iq-elevation-3-shadows);
+    background: var(--iq-scrollbar);
+    overflow: hidden;
+    border-radius: 0.4rem;
+  }
 }
