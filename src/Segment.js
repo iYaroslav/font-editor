@@ -24,7 +24,7 @@ export default function Segment({
     <div
       className={ 'header' }
       style={{
-        maxWidth: width
+        maxWidth: Math.max(width, 140)
       }}
     >
       <span className={ 'title' }>
